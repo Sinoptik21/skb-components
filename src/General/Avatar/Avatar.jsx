@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import importcss from 'importcss';
+// import importcss from 'importcss';
 // import classNames from 'classnames';
 import Component from 'lsk-general/General/Component';
 import _ from 'lodash';
 
-@importcss(require('./Avatar.css'))
+// @importcss(require('./Avatar.css'))
 export default class Avatar extends Component {
 
   static defaultProps = {
@@ -13,7 +13,7 @@ export default class Avatar extends Component {
     size: 64,
     bgColor: '#9F9',
     shape: 'circle',
-    color: '#FFF',
+    textColor: '#FFF',
     textSizeRatio: 3,
     border: false,
     borderColor: '#00BCD4',
@@ -29,7 +29,7 @@ export default class Avatar extends Component {
     size: PropTypes.number,
     bgColor: PropTypes.string,
     shape: PropTypes.oneOfType(['circle', 'square', 'rounded']),
-    color: PropTypes.string,
+    textColor: PropTypes.string,
     textSizeRatio: PropTypes.number,
     border: PropTypes.bool,
     borderColor: PropTypes.string,
@@ -81,7 +81,7 @@ export default class Avatar extends Component {
       size,
       bgColor,
       shape,
-      color,
+      textColor,
       textSizeRatio,
       border,
       borderColor,
@@ -90,12 +90,10 @@ export default class Avatar extends Component {
       inactive,
     } = this.props;
 
-    const initials = _
-      .chain(name)
+    const initials = name
       .split(' ')
       .map(s => s.charAt(0))
-      .join('')
-      .value();
+      .join('');
 
     const initialsStyle = {
       width: size,
@@ -105,7 +103,7 @@ export default class Avatar extends Component {
       textAlign: 'center',
       textTransform: 'uppercase',
       lineHeight: `${size}px`,
-      color,
+      color: textColor,
       background: inactive ? 'grey' : bgColor,
       border: border ? `${borderWidth}px solid ${borderColor}` : 'none',
       padding: border ? '2px' : 'none',
@@ -137,11 +135,9 @@ export default class Avatar extends Component {
     const Badge = badgeContent ? (<div>{ badgeContent }</div>) : null;
 
     return (
-      <div>
-        <div style={hostStyle}>
-          {src ? this.renderAsImage() : this.renderAsText()}
-          { Badge }
-        </div>
+      <div style={hostStyle}>
+        {src ? this.renderAsImage() : this.renderAsText()}
+        { Badge }
       </div>
     );
   }
