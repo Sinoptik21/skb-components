@@ -4,14 +4,21 @@ import _ from 'lodash';
 
 const rndNum = _.random(99);
 const avatarImg = `https://randomuser.me/api/portraits/men/${rndNum}.jpg`;
+const smallImg = 'http://lorempixel.com/32/32/people/';
+const largeImg = 'http://lorempixel.com/1920/1920/people/';
+const noProportionalImg = 'http://lorempixel.com/640/320/people/';
 
 module.exports = function ({ storiesOf, action }) {
   return storiesOf('Avatar', module)
     .add('default', () => (
-      <div style={{ float: 'left', padding: '10px' }}><Avatar src={avatarImg} name="John Smith" /></div>
+      <div style={{ float: 'left', padding: '10px' }}>
+        <Avatar src={avatarImg} name="John Smith" />
+      </div>
     ))
     .add('no avatar', () => (
-      <div style={{ float: 'left', padding: '10px' }}><Avatar name="John Smith" /></div>
+      <div style={{ float: 'left', padding: '10px' }}>
+        <Avatar name="John Smith" />
+      </div>
     ))
     .add('sizes', () => (
       <div>
@@ -40,8 +47,8 @@ module.exports = function ({ storiesOf, action }) {
       </div>
     ))
     .add('shadow', () => (
-      <div>
-        <div style={{ float: 'left', padding: '10px' }}><Avatar src={avatarImg} name="John Smith" shadow /></div>
+      <div style={{ float: 'left', padding: '10px' }}>
+        <Avatar src={avatarImg} name="John Smith" shadow />
       </div>
     ))
     .add('shapes', () => (
@@ -49,6 +56,31 @@ module.exports = function ({ storiesOf, action }) {
         <div style={{ float: 'left', padding: '10px' }}><Avatar src={avatarImg} name="John Smith" shape="circle" /></div>
         <div style={{ float: 'left', padding: '10px' }}><Avatar src={avatarImg} name="John Smith" shape="square" /></div>
         <div style={{ float: 'left', padding: '10px' }}><Avatar src={avatarImg} name="John Smith" shape="rounded" /></div>
+      </div>
+    ))
+    .add('small img', () => (
+      <div style={{ float: 'left', padding: '10px' }}>
+        <Avatar src={smallImg} name="John Smith" shape="circle" />
+      </div>
+    ))
+    .add('large img', () => (
+      <div style={{ float: 'left', padding: '10px' }}>
+        <Avatar src={largeImg} name="John Smith" shape="circle" />
+      </div>
+    ))
+    .add('failed img', () => (
+      <div style={{ float: 'left', padding: '10px' }}>
+        <Avatar src="/failed-img.png" name="John Smith" shape="circle" />
+      </div>
+    ))
+    .add('no proportional', () => (
+      <div style={{ float: 'left', padding: '10px' }}>
+        <Avatar src={noProportionalImg} name="John Smith" shape="circle" />
+      </div>
+    ))
+    .add('tag a', () => (
+      <div style={{ float: 'left', padding: '10px' }}>
+        <a href="#"><Avatar src={avatarImg} name="John Smith" shape="circle" /></a>
       </div>
     ));
 };

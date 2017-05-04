@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 // import classNames from 'classnames';
 import Component from 'lsk-general/General/Component';
 import _ from 'lodash';
+import ReactImageFallback from "react-image-fallback";
+
+import defaultAvatar from './img/default-avatar.png';
+import gifSpinner from './img/loading.gif';
 
 // @importcss(require('./Avatar.css'))
 export default class Avatar extends Component {
@@ -61,14 +65,17 @@ export default class Avatar extends Component {
       borderRadius: shape === 'circle' ? '50%' : shape === 'rounded' ? 6 : 0,
       filter: inactive ? 'grayscale(100%)' : 'none',
       boxShadow: shadow ? '1px 1px 10px 2px #ccc' : 'none',
+      objectFit: 'cover',
     };
 
     return (
-      <img
+      <ReactImageFallback
+        src={src}
+        fallbackImage={defaultAvatar}
+        initialImage={gifSpinner}
         width={size}
         height={size}
         style={imageStyle}
-        src={src}
         alt={name}
         title={name}
       />
