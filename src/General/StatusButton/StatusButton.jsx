@@ -5,7 +5,7 @@ import Component from 'lsk-general/General/Component';
 import cx from 'classnames';
 import css from 'importcss';
 import omit from 'lodash/omit';
-import { autobind } from 'core-decorators';
+// import { autobind } from 'core-decorators';
 
 import Check from 'react-icons/lib/fa/check';
 import Refresh from 'react-icons/lib/fa/refresh';
@@ -31,14 +31,14 @@ export default class StatusButton extends Component {
     timeout: 2000,
     tag: Button,
 
-    disabled: false,
-    pendingText: 'Загрузка...',
-    fulFilledText: 'Готово',
-    rejectedText: 'Ошибка',
-    loadingClass: 'StatusButton--loading',
-    fulFilledClass: 'StatusButton--fulfilled',
-    rejectedClass: 'StatusButton--rejected',
-    classNamespace: 'sb-',
+    // disabled: false, // x
+    pendingText: '',
+    fulFilledText: '',
+    rejectedText: '',
+    loadingClass: 'sb--loading', // x
+    fulFilledClass: 'sb--fulfilled', // x
+    rejectedClass: 'sb--rejected', // x
+    classNamespace: 'sb-', // x
   }
 
   static propTypes = {
@@ -50,17 +50,16 @@ export default class StatusButton extends Component {
     timeout: PropTypes.number,
     tag: PropTypes.any,
 
-    disabled: PropTypes.bool,
+    // disabled: PropTypes.bool, // x
     pendingText: PropTypes.string,
     fulFilledText: PropTypes.string,
     rejectedText: PropTypes.string,
-    loadingClass: PropTypes.string,
-    fulFilledClass: PropTypes.string,
-    rejectedClass: PropTypes.string,
-    classNamespace: PropTypes.string,
+    loadingClass: PropTypes.string, // x
+    fulFilledClass: PropTypes.string, // x
+    rejectedClass: PropTypes.string, // x
+    classNamespace: PropTypes.string, // x
   }
 
-  // ?
   constructor(props) {
     super(props);
     this.state = {
@@ -276,15 +275,23 @@ export default class StatusButton extends Component {
     // containerProps.onClick = this.handleClick;
 
     const { status } = this.state;
-    const { children, tag: Tag, bsStyle, styleName } = this.props;
+    const {
+      children,
+      tag: Tag,
+      bsStyle,
+      styleName,
+      pendingText,
+      fulFilledText,
+      rejectedText,
+    } = this.props;
 
     const style = cx({
-      default: status === BUTTON_STATE.loading,
-      success: status === BUTTON_STATE.success,
-      danger: status === BUTTON_STATE.error,
+      default: status === BUTTON_STATE.LOADING,
+      success: status === BUTTON_STATE.SUCCESS,
+      danger: status === BUTTON_STATE.ERROR,
     });
 
-    const disabled = ['loading', 'error', 'success'].includes(status);
+    const disabled = ['loading', 'error', 'success'].includes(status) || status === BUTTON_STATE.DISABLED;
 
     // return (
     //   <div {...containerProps}>
@@ -312,6 +319,24 @@ export default class StatusButton extends Component {
     //   </div>
     // );
 
+    // TODO: убрать курсор ожидания, если disabled
+    // TODO: сделать, чтобы при loading значок крутился
+
+    let stateText;
+    switch (status) {
+      case 'loading':
+        stateText = pendingText;
+        break;
+      case 'success':
+        stateText = fulFilledText;
+        break;
+      case 'error':
+        stateText = rejectedText;
+        break;
+      default:
+        stateText = '';
+    }
+
     return (
       <Tag
         {...omit(this.props, ['status', 'tag', 'promise', 'timeout'])}
@@ -319,7 +344,7 @@ export default class StatusButton extends Component {
         bsStyle={disabled ? style : bsStyle}
         disabled={disabled}
       >
-        <span style={{ visibility: disabled ? 'hidden' : 'visible' }}>
+        <span style={{ visibility: disabled && status !== BUTTON_STATE.DISABLED ? 'hidden' : 'visible' }}>
           {children}
         </span>
         <div
@@ -330,6 +355,11 @@ export default class StatusButton extends Component {
         >
           {this.convertStatus(status)}
         </div>
+        <div
+          styleName={cx({
+            animate: true,
+          })}
+        >{stateText}</div>
       </Tag>
     );
   }

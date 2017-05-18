@@ -7,101 +7,74 @@ module.exports = function ({ storiesOf, action, knob }) {
   // const promise = new Promise((_resolve) => { resolve = _resolve; });
   // const onClick = () => promise;
 
-  const handleClick1 = () => {
-    return new Promise((resolve) => {
-      // make asynchronous call
-      setTimeout(resolve, 3000);
-    });
-  };
-
-  const handleClick2 = () => {
-    return new Promise((resolve, reject) => {
-      // make asynchronous call
-      setTimeout(reject, 3000);
-    });
-  };
+  // const handleClick1 = () => {
+  //   return new Promise((resolve) => {
+  //     // make asynchronous call
+  //     setTimeout(resolve, 3000);
+  //   });
+  // };
+  //
+  // const handleClick2 = () => {
+  //   return new Promise((resolve, reject) => {
+  //     // make asynchronous call
+  //     setTimeout(reject, 3000);
+  //   });
+  // };
 
   return storiesOf('StatusButton', module)
     .addHtml(<link rel="stylesheet" type="text/css" href="https://yastatic.net/bootstrap/3.3.6/css/bootstrap.min.css" />)
-    .add('Default button', () => (
-      <StatusButton />
-    ))
-    .add('Status: loading', () => (
-      <StatusButton status="loading" bsStyle="info" />
-    ))
-    .add('Status: success', () => (
-      <StatusButton status="success" bsStyle="success" />
-    ))
-    .add('Status: error', () => (
-      <StatusButton status="error" bsStyle="danger" />
-    ))
-    .add('Propmise: success', () => (
-      <StatusButton status="success" />
-    ))
-    .add('Promise: error', () => (
-      <StatusButton status="error" />
-    ))
-    .add('Disabled button', () => (
-      <StatusButton disabled text="Save" />
-    ))
-    .add('2', () => (
-      <StatusButton text="Save" pendingText="Saving..." />
-    ))
-    .add('3', () => (
-      <StatusButton onClick={onClick} />
-    ))
-    .add('4', () => (
-      <StatusButton className="btn"
-        text="Save"
-        pendingText="Saving..."
-        fulFilledText="Saved Successfully!"
-        rejectedText="Failed! Try Again"
-        loadingClass="isSaving"
-        fulFilledClass="btn-primary"
-        rejectedClass="btn-danger"
-      />
-    ))
-    .add('5', () => (
-      <StatusButton state="none" onClick={handleClick1()}>Button</StatusButton>
-    ))
-    .add('6', () => (
-      <StatusButton state="none" onClick={handleClick2()}>Button</StatusButton>
-    ))
-    .add('--API', () => (
+    .add('Knobs', () => (
       <StatusButton
         onClick={action('onClick')}
-        bsStyle="info"
-        status={knob.text('status=null|loading|success|error', null)}
-        children={knob.text('children', 'Sample content')}
-      />
+        bsStyle={knob.select('bsStyle', { none: null, default: 'default', info: 'info', success: 'success', warning: 'warning', danger: 'danger' }, null)}
+        bsSize={knob.select('bsSize', { normal: null, xsmall: 'xsmall', small: 'small', large: 'large' }, null)}
+        status={knob.select('Status', { null: 'null', loading: 'loading', success: 'success', error: 'error', disabled: 'disabled' }, null)}
+        pendingText={knob.text('Pending text', '')}
+        fulFilledText={knob.text('FulFilled text', '')}
+        rejectedText={knob.text('Rejected text', '')}
+      >
+        {knob.text('children', 'Sample content')}
+      </StatusButton>
     ))
-    .add('Default', () => (
-      <StatusButton onClick={action('onClick')}>Status Button</StatusButton>
+    .add('Default button', () => (
+      <StatusButton onClick={action('onClick')}>Button</StatusButton>
     ))
-    .add('Loading', () => (
-      <StatusButton onClick={action('onClick')} status="loading">Click me!</StatusButton>
+    .add('State: loading', () => (
+      <StatusButton onClick={action('onClick')} status="loading">Button</StatusButton>
     ))
-    .add('Success', () => (
-      <StatusButton onClick={action('onClick')} status="success">Click me!</StatusButton>
+    .add('State: loading (with text)', () => (
+      <StatusButton onClick={action('onClick')} status="loading" pendingText="Загрузка...">Button</StatusButton>
     ))
-    .add('Error', () => (
-      <StatusButton onClick={action('onClick')} status="error">Click me!</StatusButton>
+    .add('State: success', () => (
+      <StatusButton onClick={action('onClick')} status="success">Button</StatusButton>
     ))
-    .add('Promise success', () => (
+    .add('State: success (with text)', () => (
+      <StatusButton onClick={action('onClick')} status="success" fulFilledText="Готово">Button</StatusButton>
+    ))
+    .add('State: error', () => (
+      <StatusButton onClick={action('onClick')} status="error">Button</StatusButton>
+    ))
+    .add('State: error (with text)', () => (
+      <StatusButton onClick={action('onClick')} status="error" rejectedText="Ошибка">Button</StatusButton>
+    ))
+    .add('State: disabled', () => (
+      <StatusButton onClick={action('onClick')} status="disabled">Button</StatusButton>
+    ))
+    .add('Promise: success', () => (
       <TestPromise
         promiseTimeout={knob.number('promiseTimeout', 1000)}
         timeout={knob.number('timeout', 2000)}
       >
-        Click me!
+        Отправить
       </TestPromise>
     ))
-    .add('Promise error', () => (
+    .add('Promise: error', () => (
       <TestPromise
         error
         promiseTimeout={knob.number('promiseTimeout', 1000)}
         timeout={knob.number('timeout', 2000)}
       >
-        Click me!
+        Отправить
       </TestPromise>
     ))
     .add('Bootstrap styles', () => (
@@ -110,15 +83,10 @@ module.exports = function ({ storiesOf, action, knob }) {
         bsStyle={knob.text('bsStyle', 'info')}
         bsSize={knob.text('bsSize', 'large')}
       >
-        {knob.text('children', 'Bootstrap styled button')}
+        {knob.text('children', 'Button')}
       </StatusButton>
     ))
     .add('Change tag=button', () => (
-      <StatusButton tag={knob.text('tag', 'button')} status="error">Click me!</StatusButton>
-    ))
-    .add('Random behaviour', () => {
-      return (<StatusButton bsSize="large" promise2={1}>
-        Рандомно ведущая себя кнопка
-      </StatusButton>);
-    });
+      <StatusButton tag={knob.text('tag', 'button')} status="error">Button</StatusButton>
+    ));
 };
