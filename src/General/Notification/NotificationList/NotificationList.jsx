@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Component from 'lsk-general/General/Component';
+import Notification from '../Notification';
 // import cx from 'classnames';
-// import css from 'importcss';
+import css from 'importcss';
 import { autobind } from 'core-decorators';
 import take from 'lodash/take';
-import plural from './plural.js';
+import plural from './plural';
 
+@css(require('../Notification.scss'))
 export default class NotificationList extends Component {
 
   static defaultProps = {
@@ -25,22 +27,9 @@ export default class NotificationList extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.loadNotificationsFromServer();
-  //   // setInterval(this.loadNotificationsFromServer, this.props.pollInterval);
-  // }
-
-  // @autobind
-  // loadCommentsFromServer() {
-  //   // TODO: получить события
-  //   this.setState({ notifications });
-  // }
-
   @autobind
   handleNotificationsShow(e) {
     e.preventDefault();
-    const notifications = this.props.notifications;
-    // console.log(notifications);
     this.setState({ showAll: true });
   }
 
@@ -56,21 +45,20 @@ export default class NotificationList extends Component {
 
     const notificationNodes = visibleNotifications.map(notification =>
       (
-        // <Notification>
-        //   {notification.content}
-        // </Notification>
-        <div key={notification.id}>{notification.content}</div>
+        <div key={notification.id}>
+          <Notification content={notification.content} />
+        </div>
       ),
     );
 
     const eventCount = notifications.length;
     const eventCountTxt = eventCount === 0 ? 'Нет событий' : `${eventCount} ${plural(eventCount, 'событие', 'события', 'событий')}`;
-    const notificationList = eventCount === 0 ? '' : (<div className="notification__list__content">{notificationNodes}</div>);
-    const footer = eventCount > showCount && !showAll ? (<div className="notification__list__footer"><a href="#" onClick={this.handleNotificationsShow}>Все сообщения</a></div>) : '';
+    const notificationList = eventCount === 0 ? '' : (<div styleName="notification__list__content">{notificationNodes}</div>);
+    const footer = eventCount > showCount && !showAll ? (<div styleName="notification__list__footer"><a onClick={this.handleNotificationsShow}>Все сообщения</a></div>) : '';
 
     return (
-      <div className="notification__list">
-        <div className="notification__list__header">{eventCountTxt}</div>
+      <div styleName="notification__list__container">
+        <div styleName="notification__list__header">{eventCountTxt}</div>
         {notificationList}
         {footer}
       </div>
