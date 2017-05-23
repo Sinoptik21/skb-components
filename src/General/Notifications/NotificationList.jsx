@@ -54,9 +54,12 @@ export default class NotificationList extends Component {
 
     return (
       <div styleName="notification__list__container">
-        <div styleName="notification__list__header">{eventCountTxt}</div>
-        {notificationList}
-        {footer}
+        <div styleName="notification__arrow-up"></div>
+        <div styleName="notification__content">
+          <div styleName="notification__list__header">{eventCountTxt}</div>
+          {notificationList}
+          {footer}
+        </div>
       </div>
     );
   }

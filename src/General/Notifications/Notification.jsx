@@ -3,8 +3,9 @@ import css from 'importcss';
 import { autobind } from 'core-decorators';
 
 import Avatar from '../Avatar';
+import defaultAvatar from '../Avatar/img/default-avatar.png';
 
-@css(require('./Notification.scss'))
+@css(require('./Notifications.scss'))
 export default class Notification extends Component {
 
   static defaultProps = {
@@ -91,24 +92,26 @@ export default class Notification extends Component {
 
     const user = {
       name: 'John Smith',
+      avatar: defaultAvatar,
       status: 'online',
     };
 
-    const userStatusColor = user.status === 'online' ? '#4CAF50' : '#F44336';
+    const userStatusColor = user.status === 'online' ? '#80CD41' : '#F44336';
 
     return (
-      <div styleName="push_message">
-        <div styleName="push_message__avatar">
+      <div styleName="notification">
+        <div styleName="notification__avatar">
           <Avatar
             title={user.name}
-            size={50}
+            avatar={user.avatar}
+            size={82}
           >
             <Avatar.Badge right bottom>
-              <div style={{ width: 10, height: 10, backgroundColor: userStatusColor, borderRadius: '50%', border: '2px solid #fff' }} />
+              <div style={{ width: 18, height: 18, backgroundColor: userStatusColor, borderRadius: '50%', border: '5px solid #FFF' }} />
             </Avatar.Badge>
           </Avatar>
         </div>
-        <div styleName="push_message__text">
+        <div styleName="notification__message">
           {/* {this.props.children} */}
           {user && <strong>{user.name}</strong>}{' '}
           {msgArr}

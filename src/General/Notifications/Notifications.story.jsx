@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Notifications from './Notifications';
+import NotificationBox from './NotificationBox';
 import NotificationList from './NotificationList';
 import Notification from './Notification';
 
@@ -31,8 +31,8 @@ const twoNotifications = take(notifications, 2);
 
 module.exports = function ({ storiesOf }) {
   return storiesOf('Notifications', module)
-    .add('Notifications default', () => (
-      <Notifications notifications={notifications} />
+    .add('NotificationBox default', () => (
+      <NotificationBox notifications={notifications} />
     ))
     .add('Default list', () => (
       <NotificationList notifications={notifications} />
