@@ -1,7 +1,9 @@
 import React from 'react';
+
+import Notifications from './Notifications';
 import NotificationList from './NotificationList';
-import NotificationBox from './NotificationBox';
 import Notification from './Notification';
+
 import take from 'lodash/take';
 
 const notifications = [{
@@ -28,9 +30,9 @@ const oneNotification = take(notifications, 1);
 const twoNotifications = take(notifications, 2);
 
 module.exports = function ({ storiesOf }) {
-  return storiesOf('Notification', module)
-    .add('NotificationBox default', () => (
-      <NotificationBox notifications={notifications} />
+  return storiesOf('Notifications', module)
+    .add('Notifications default', () => (
+      <Notifications notifications={notifications} />
     ))
     .add('Default list', () => (
       <NotificationList notifications={notifications} />

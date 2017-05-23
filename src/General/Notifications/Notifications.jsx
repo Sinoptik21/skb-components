@@ -1,15 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Component from 'lsk-general/General/Component';
-import NotificationList from './NotificationList';
+import React, { Component, PropTypes } from 'react';
 // import cx from 'classnames';
 import css from 'importcss';
 import { autobind } from 'core-decorators';
 
+import NotificationList from './NotificationList';
+
 import Bell from 'react-icons/lib/fa/bell';
 
-@css(require('./Notification.scss'))
-export default class NotificationBox extends Component {
+@css(require('./Notifications.scss'))
+export default class Notifications extends Component {
 
   static defaultProps = {
     notifications: [],

@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Component from 'lsk-general/General/Component';
-import Notification from '../Notification';
+import React, { Component, PropTypes } from 'react';
 // import cx from 'classnames';
 import css from 'importcss';
 import { autobind } from 'core-decorators';
 import take from 'lodash/take';
-import plural from './plural';
 
-@css(require('../Notification.scss'))
+import Notification from './Notification';
+
+import plural from './utils/plural';
+
+@css(require('./Notifications.scss'))
 export default class NotificationList extends Component {
 
   static defaultProps = {
-    showCount: 4,
+    showCount: 4, // TODO rename to pageSize
   }
 
   static propTypes = {
@@ -44,11 +44,7 @@ export default class NotificationList extends Component {
     const visibleNotifications = showAll ? notifications : take(notifications, showCount);
 
     const notificationNodes = visibleNotifications.map(notification =>
-      (
-        <div key={notification.id}>
-          <Notification content={notification.content} />
-        </div>
-      ),
+      <Notification key={notification.id}>{notification.content}</Notification>,
     );
 
     const eventCount = notifications.length;
