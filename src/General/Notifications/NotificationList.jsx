@@ -5,6 +5,7 @@ import { autobind } from 'core-decorators';
 import take from 'lodash/take';
 
 import Notification from './Notification';
+import A from '../A';
 
 import plural from './utils/plural';
 
@@ -12,53 +13,50 @@ import plural from './utils/plural';
 export default class NotificationList extends Component {
 
   static defaultProps = {
-    showCount: 4, // TODO rename to pageSize
+    listLength: 10,
   }
 
   static propTypes = {
-    showCount: PropTypes.number,
+    listLength: PropTypes.number,
     notifications: PropTypes.array.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      showAll: false,
-    };
-  }
-
   @autobind
-  handleNotificationsShow(e) {
+  handleClickToLink(e) {
     e.preventDefault();
-    this.setState({ showAll: true });
+    console.log('Поздравляю, вы перешли по ссылке');
   }
 
   render() {
     const {
-      showCount,
+      listLength,
       notifications,
     } = this.props;
-
-    const showAll = this.state.showAll;
-
-    const visibleNotifications = showAll ? notifications : take(notifications, showCount);
-
-    const notificationNodes = visibleNotifications.map(notification =>
-      <Notification key={notification.id}>{notification.content}</Notification>,
-    );
-
+    const visibleNotifications = take(notifications, listLength);
     const eventCount = notifications.length;
-    const eventCountTxt = eventCount === 0 ? 'Нет событий' : `${eventCount} ${plural(eventCount, 'событие', 'события', 'событий')}`;
-    const notificationList = eventCount === 0 ? '' : (<div styleName="notification__list__content">{notificationNodes}</div>);
-    const footer = eventCount > showCount && !showAll ? (<div styleName="notification__list__footer"><a onClick={this.handleNotificationsShow}>Все сообщения</a></div>) : '';
 
     return (
       <div styleName="notification__list__container">
-        <div styleName="notification__arrow-up"></div>
+        <div styleName="notification__arrow-up" />
         <div styleName="notification__content">
-          <div styleName="notification__list__header">{eventCountTxt}</div>
-          {notificationList}
-          {footer}
+          <If condition={eventCount === 0}>
+            <div styleName="notification__list__header">{'Нет событий'}</div>
+          </If>
+          <If condition={eventCount !== 0}>
+            <div styleName="notification__list__header">
+              {`${eventCount} ${plural(eventCount, 'событие', 'события', 'событий')}`}
+            </div>
+            {<div styleName="notification__list__content">
+              {visibleNotifications.map(notification =>
+                <Notification key={notification.id}>{notification.content}</Notification>,
+              )}
+            </div>}
+          </If>
+          <If condition={eventCount > listLength}>
+            <div styleName="notification__list__footer">
+              <A onClick={this.handleClickToLink} href="/cabinet/notifications">Все сообщения</A>
+            </div>
+          </If>
         </div>
       </div>
     );

@@ -22,67 +22,67 @@ $arrow-half: 13px;
     color: $white;
     cursor: pointer;
   }
+}
 
-  .notification__list__container {
-    width: 465px;
-    position: absolute;
-    top: 50px;
-    left: -210px;
+.notification__list__container {
+  width: 465px;
+  position: absolute;
+  top: 50px;
+  left: -210px;
 
-    .notification__arrow-up {
-      position: relative;
-      left: -webkit-calc(50% - #{$arrow-half});
-      left:    -moz-calc(50% - #{$arrow-half});
-      left:         calc(50% - #{$arrow-half});
-      width: 0;
-      height: 0;
-      border-left: $arrow-half solid transparent;
-      border-right: $arrow-half solid transparent;
-      border-bottom: $arrow-half solid $blue;
+  .notification__arrow-up {
+    position: relative;
+    left: -webkit-calc(50% - #{$arrow-half});
+    left:    -moz-calc(50% - #{$arrow-half});
+    left:         calc(50% - #{$arrow-half});
+    width: 0;
+    height: 0;
+    border-left: $arrow-half solid transparent;
+    border-right: $arrow-half solid transparent;
+    border-bottom: $arrow-half solid $blue;
+  }
+
+  .notification__content {
+    background-color: $blue;
+
+    .notification__list__header {
+      text-align: center;
+      color: $white;
+      font-size: $fs-large;
+      line-height: $h70;
+      height: $h70;
+      text-transform: uppercase;
     }
+    .notification__list__content {
+      background-color: $white;
+      border: 1px solid $blue;
+    }
+    .notification__list__footer {
+      height: $h70;
 
-    .notification__content {
-      background-color: $blue;
-
-      .notification__list__header {
-        text-align: center;
-        color: $white;
-        font-size: $fs-large;
+       a {
         line-height: $h70;
-        height: $h70;
-        text-transform: uppercase;
-      }
-      .notification__list__content {
-        background-color: $white;
-        border: 1px solid $blue;
+        text-align: center;
+        display: block;
+        color: $white;
+        font-size: $fs-med;
+        cursor: pointer;
 
-        .notification {
-          margin: 5px 10px;
-
-          .notification__avatar {
-
-          }
-          .notification__message {
-
-          }
-        }
-      }
-      .notification__list__footer {
-        height: $h70;
-
-         a {
-          line-height: $h70;
-          text-align: center;
-          display: block;
-          color: $white;
-          font-size: $fs-med;
-          cursor: pointer;
-
-          &:hover {
-            text-decoration: underline;
-          }
+        &:hover {
+          text-decoration: underline;
         }
       }
     }
+  }
+}
+
+.notification {
+  margin: 5px 10px;
+
+  .notification__avatar {
+
+  }
+  .notification__message {
+
   }
 }

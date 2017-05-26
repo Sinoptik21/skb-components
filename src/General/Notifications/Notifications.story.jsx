@@ -6,25 +6,84 @@ import Notification from './Notification';
 
 import take from 'lodash/take';
 
+import defaultAvatar from '../Avatar/img/default-avatar.png';
+
 const notifications = [{
   id: 1,
-  content: (<div>notification1</div>),
+  content: {
+    user: {
+      id: 9,
+      name: 'John Smith',
+      avatar: defaultAvatar,
+      status: 'online',
+    },
+    action: 'deal',
+    actionType: 'accept',
+    object: {
+      id: 112,
+      title: 'Название сделки',
+    },
+  },
+  viewed: false,
 },
 {
   id: 2,
-  content: (<div>notification2</div>),
+  content: {
+    action: 'deal',
+    actionType: 'timeEnds',
+    object: {
+      id: 313,
+      title: 'Название какой-то сделки',
+    },
+  },
+  viewed: false,
 },
 {
   id: 3,
-  content: (<div>notification3</div>),
+  content: {
+    action: 'deal',
+    object: {
+      id: 123,
+      title: 'Ваша сделка',
+    },
+  },
+  viewed: false,
 },
 {
   id: 4,
-  content: (<div>notification4</div>),
+  content: {
+    user: {
+      id: 12,
+      name: 'Peter Smith',
+      avatar: defaultAvatar,
+      status: 'offline',
+    },
+    action: 'message',
+  },
+  viewed: false,
 },
 {
   id: 5,
-  content: (<div>notification5</div>),
+  content: {
+    user: {
+      id: 22,
+      name: 'Amanda Smith',
+      avatar: defaultAvatar,
+      status: 'online',
+    },
+    action: 'comment',
+  },
+  viewed: false,
+},
+{
+  id: 6,
+  content: {},
+  viewed: false,
+},
+{
+  id: 7,
+  content: {},
+  viewed: true,
 }];
 const oneNotification = take(notifications, 1);
 const twoNotifications = take(notifications, 2);
@@ -47,9 +106,9 @@ module.exports = function ({ storiesOf }) {
       <NotificationList notifications={twoNotifications} />
     ))
     .add('Showing three notifications in list', () => (
-      <NotificationList showCount={3} notifications={notifications} />
+      <NotificationList showCount={4} notifications={notifications} />
     ))
     .add('Notification content', () => (
-      <Notification content={<div>Simple notification content</div>} />
+      <Notification>{{ id: 8, content: {} }}</Notification>
     ));
 };

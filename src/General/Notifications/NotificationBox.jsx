@@ -12,12 +12,12 @@ export default class Notifications extends Component {
 
   static defaultProps = {
     notifications: [],
-    showCount: 4,
+    listLength: 4,
   }
 
   static propTypes = {
     notifications: PropTypes.array,
-    showCount: PropTypes.number,
+    listLength: PropTypes.number,
   };
 
   constructor(props) {
@@ -44,10 +44,10 @@ export default class Notifications extends Component {
   }
 
   render() {
-    const { notifications, showCount } = this.props;
+    const { notifications, listLength } = this.props;
     // const countNotifications = notifications.length;
     const showList = this.state.showList;
-    const notificationsList = showList ? <NotificationList showCount={showCount} notifications={notifications} /> : '';
+    const notificationsList = showList ? <NotificationList listLength={listLength} notifications={notifications} /> : '';
 
     return (
       <div styleName="notification__container">
