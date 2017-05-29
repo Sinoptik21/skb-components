@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-// import cx from 'classnames';
 import css from 'importcss';
 import { autobind } from 'core-decorators';
 
@@ -12,7 +11,7 @@ export default class Notifications extends Component {
 
   static defaultProps = {
     notifications: [],
-    listLength: 4,
+    listLength: 10,
   }
 
   static propTypes = {
@@ -24,6 +23,7 @@ export default class Notifications extends Component {
     super(props);
     this.state = {
       showList: false,
+      notifications: this.props.notifications,
     };
   }
 
@@ -41,17 +41,29 @@ export default class Notifications extends Component {
   @autobind
   handleNotificationListShow() {
     this.setState({ showList: !this.state.showList });
+    // const stateCopy = Object.assign({}, this.state);
+    // stateCopy.notifications.map((notification) => {
+    //   notification.viewed = true;
+    //   return notification;
+    // });
+    // setTimeout(function() {
+    //   this.setState({ notifications: stateCopy.notifications });
+    // }.bind(this), 3000);
+    // TODO: изменения статуса на "Просмотрено" и отправка измененного статуса на сервер
   }
 
   render() {
     const { notifications, listLength } = this.props;
-    // const countNotifications = notifications.length;
+    const countNotViewed = notifications.length;
     const showList = this.state.showList;
     const notificationsList = showList ? <NotificationList listLength={listLength} notifications={notifications} /> : '';
 
     return (
       <div styleName="notification__container">
-        <div styleName="notification__bell" onClick={this.handleNotificationListShow}><Bell /></div>
+        <div styleName="notification__bell" onClick={this.handleNotificationListShow}>
+          <Bell />
+          <div>{}</div>
+        </div>
         {notificationsList}
       </div>
     );

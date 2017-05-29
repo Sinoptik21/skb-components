@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-// import cx from 'classnames';
 import css from 'importcss';
 import { autobind } from 'core-decorators';
 import take from 'lodash/take';
@@ -48,7 +47,12 @@ export default class NotificationList extends Component {
             </div>
             {<div styleName="notification__list__content">
               {visibleNotifications.map(notification =>
-                <Notification key={notification.id}>{notification.content}</Notification>,
+                <Notification
+                  key={notification.id}
+                  viewed={notification.viewed}
+                >
+                  {notification.content}
+                </Notification>,
               )}
             </div>}
           </If>

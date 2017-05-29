@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import css from 'importcss';
+import cx from 'classnames';
 import { autobind } from 'core-decorators';
 import _ from 'lodash';
 import A from '../A';
@@ -11,7 +12,12 @@ const OFFLINE_BADGE_COLOR = '#F44336';
 @css(require('./Notifications.scss'))
 export default class Notification extends Component {
 
+  static defaultProps = {
+    viewed: false,
+  }
+
   static propTypes = {
+    viewed: PropTypes.bool,
     children: PropTypes.object.isRequired,
   }
 
@@ -28,15 +34,17 @@ export default class Notification extends Component {
       const avatarSrc = notify.user.avatar || null;
       avatar = (
         <div styleName="notification__avatar">
-          <Avatar
-            title={notify.user.name}
-            avatar={avatarSrc}
-            size={82}
-          >
-            <Avatar.Badge right bottom>
-              <div style={{ width: 18, height: 18, backgroundColor: userStatusColor, borderRadius: '50%', border: '5px solid #FFF' }} />
-            </Avatar.Badge>
-          </Avatar>
+          <A styleName="notification__username" onClick={this.handleClickToLink} href={`/cabinet/user/${notify.user.id}`}>
+            <Avatar
+              title={notify.user.name}
+              avatar={avatarSrc}
+              size={48}
+            >
+              <Avatar.Badge right bottom>
+                <div style={{ width: 8, height: 8, backgroundColor: userStatusColor, borderRadius: '50%', border: '3px solid #FFF' }} />
+              </Avatar.Badge>
+            </Avatar>
+          </A>
         </div>
       );
     }
@@ -55,9 +63,9 @@ export default class Notification extends Component {
           <div styleName="notification">
             {avatar}
             <div styleName="notification__message">
-              <A onClick={this.handleClickToLink} href={`/cabinet/user/${notify.user.id}`}>{<strong>{notify.user.name}</strong>}</A>
+              <A styleName="notification__username" onClick={this.handleClickToLink} href={`/cabinet/user/${notify.user.id}`}>{<strong>{notify.user.name}</strong>}</A>
               {' принял вашу сделку '}
-              <A onClick={this.handleClickToLink} href={`/cabinet/offers/${notify.object.id}`}>{_.get(notify, 'object.title')}</A>
+              <A onClick={this.handleClickToLink} href={`/cabinet/offers/${notify.object.id}`}>{`"${_.get(notify, 'object.title')}"`}</A>
             </div>
           </div>
         );
@@ -67,7 +75,7 @@ export default class Notification extends Component {
           <div styleName="notification">
             <div styleName="notification__message">
               {'Ваша сделка '}
-              <A onClick={this.handleClickToLink} href={`/cabinet/offers/${notify.object.id}`}>{_.get(notify, 'object.title')}</A>
+              <A onClick={this.handleClickToLink} href={`/cabinet/offers/${notify.object.id}`}>{`"${_.get(notify, 'object.title')}"`}</A>
               {' скоро истекает.'}
             </div>
           </div>
@@ -77,7 +85,7 @@ export default class Notification extends Component {
           <div styleName="notification">
             <div styleName="notification__message">
               {'Уведомление, связанное с вашей сделкой '}
-              <A onClick={this.handleClickToLink} href={`/cabinet/offers/${notify.object.id}`}>{_.get(notify, 'object.title')}</A>
+              <A onClick={this.handleClickToLink} href={`/cabinet/offers/${notify.object.id}`}>{`"${_.get(notify, 'object.title')}"`}</A>
             </div>
           </div>
         );
@@ -109,15 +117,30 @@ export default class Notification extends Component {
     return (
       <div styleName="notification">
         <div styleName="notification__message">
-          <strong>У вас какое-то уведомление</strong>
+          У вас какое-то уведомление
         </div>
       </div>
     );
   }
 
+  @autobind
+  handleNotifyClick(e) {
+    e.preventDefault();
+    console.log('Поздравляю, вы перешли по ссылке');
+  }
+
   render() {
-    // TODO: добавить viewed
     const notify = this.props.children;
-    return this.switchActions(notify);
+    const { viewed } = this.props;
+
+    const viewedClass = cx('notification__wrapper', {
+      'not-viewed': !viewed,
+    });
+
+    return (
+      <div styleName={viewedClass} onClick={this.handleNotifyClick}>
+        {this.switchActions(notify)}
+      </div>
+    );
   }
 }

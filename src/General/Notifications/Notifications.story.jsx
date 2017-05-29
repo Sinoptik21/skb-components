@@ -14,7 +14,7 @@ const notifications = [{
     user: {
       id: 9,
       name: 'John Smith',
-      avatar: defaultAvatar,
+      avatar: 'https://randomuser.me/api/portraits/men/9.jpg',
       status: 'online',
     },
     action: 'deal',
@@ -55,7 +55,7 @@ const notifications = [{
     user: {
       id: 12,
       name: 'Peter Smith',
-      avatar: defaultAvatar,
+      avatar: 'https://randomuser.me/api/portraits/men/12.jpg',
       status: 'offline',
     },
     action: 'message',
@@ -73,12 +73,12 @@ const notifications = [{
     },
     action: 'comment',
   },
-  viewed: false,
+  viewed: true,
 },
 {
   id: 6,
   content: {},
-  viewed: false,
+  viewed: true,
 },
 {
   id: 7,
@@ -105,10 +105,28 @@ module.exports = function ({ storiesOf }) {
     .add('Two notifications in list', () => (
       <NotificationList notifications={twoNotifications} />
     ))
-    .add('Showing three notifications in list', () => (
-      <NotificationList showCount={4} notifications={notifications} />
+    .add('Showing four notifications in list', () => (
+      <NotificationList listLength={4} notifications={notifications} />
     ))
-    .add('Notification content', () => (
-      <Notification>{{ id: 8, content: {} }}</Notification>
+    .add('Simple notification content (not viewed)', () => (
+      <Notification>{{}}</Notification>
+    ))
+    .add('Notification content (viewed)', () => (
+      <Notification viewed>
+        {{
+          user: {
+            id: 18,
+            name: 'Иван Иванов',
+            avatar: 'https://randomuser.me/api/portraits/men/18.jpg',
+            status: 'offline',
+          },
+          action: 'deal',
+          actionType: 'accept',
+          object: {
+            id: 112,
+            title: 'Какая-то очень важная сделка',
+          },
+        }}
+      </Notification>
     ));
 };
