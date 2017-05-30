@@ -29,16 +29,15 @@ export default class StatusButton extends Component {
     promise: null,
     styleName: '',
     timeout: 2000,
-    tag: Button,
 
-    // disabled: false, // x
+    // disabled: false,
     pendingText: '',
     fulFilledText: '',
     rejectedText: '',
-    loadingClass: 'sb--loading', // x
-    fulFilledClass: 'sb--fulfilled', // x
-    rejectedClass: 'sb--rejected', // x
-    classNamespace: 'sb-', // x
+    // loadingClass: 'sb--loading',
+    // fulFilledClass: 'sb--fulfilled',
+    // rejectedClass: 'sb--rejected',
+    // classNamespace: 'sb-',
   }
 
   static propTypes = {
@@ -48,16 +47,15 @@ export default class StatusButton extends Component {
     bsStyle: PropTypes.string,
     styleName: PropTypes.string,
     timeout: PropTypes.number,
-    tag: PropTypes.any,
 
-    // disabled: PropTypes.bool, // x
+    // disabled: PropTypes.bool,
     pendingText: PropTypes.string,
     fulFilledText: PropTypes.string,
     rejectedText: PropTypes.string,
-    loadingClass: PropTypes.string, // x
-    fulFilledClass: PropTypes.string, // x
-    rejectedClass: PropTypes.string, // x
-    classNamespace: PropTypes.string, // x
+    // loadingClass: PropTypes.string,
+    // fulFilledClass: PropTypes.string,
+    // rejectedClass: PropTypes.string,
+    // classNamespace: PropTypes.string,
   }
 
   constructor(props) {
@@ -277,7 +275,6 @@ export default class StatusButton extends Component {
     const { status } = this.state;
     const {
       children,
-      tag: Tag,
       bsStyle,
       styleName,
       pendingText,
@@ -285,13 +282,23 @@ export default class StatusButton extends Component {
       rejectedText,
     } = this.props;
 
+    // const style = cx({
+    //   default: status === BUTTON_STATE.NONE ||
+    //     status === BUTTON_STATE.LOADING ||
+    //     status === BUTTON_STATE.DISABLED,
+    //   success: status === BUTTON_STATE.SUCCESS,
+    //   danger: status === BUTTON_STATE.ERROR,
+    // });
+
+    const processing = ['loading', 'error', 'success'].includes(status);
     const style = cx({
-      default: status === BUTTON_STATE.LOADING,
+      default: ['none', 'loading', 'disabled'].includes(status),
       success: status === BUTTON_STATE.SUCCESS,
       danger: status === BUTTON_STATE.ERROR,
+      loading: status === BUTTON_STATE.LOADING,
+      processing: ['loading', 'error', 'success'].includes(status),
     });
-
-    const disabled = ['loading', 'error', 'success'].includes(status) || status === BUTTON_STATE.DISABLED;
+    const disabled = status === BUTTON_STATE.DISABLED;
 
     // return (
     //   <div {...containerProps}>
@@ -319,32 +326,33 @@ export default class StatusButton extends Component {
     //   </div>
     // );
 
-    // TODO: убрать курсор ожидания, если disabled
-    // TODO: сделать, чтобы при loading значок крутился
-
     let stateText;
+    let bsStyleType;
     switch (status) {
       case 'loading':
         stateText = pendingText;
+        bsStyleType = 'default';
         break;
       case 'success':
         stateText = fulFilledText;
+        bsStyleType = 'success';
         break;
       case 'error':
         stateText = rejectedText;
+        bsStyleType = 'danger';
         break;
       default:
         stateText = '';
     }
 
     return (
-      <Tag
-        {...omit(this.props, ['status', 'tag', 'promise', 'timeout'])}
-        styleName={`StatusButton ${style} ${styleName}`}
-        bsStyle={disabled ? style : bsStyle}
+      <Button
+        {...omit(this.props, ['status', 'promise', 'timeout', 'pendingText', 'fulFilledText', 'rejectedText'])}
+        styleName={`StatusButton ${styleName} ${style}`}
+        bsStyle={bsStyleType || bsStyle}
         disabled={disabled}
       >
-        <span style={{ visibility: disabled && status !== BUTTON_STATE.DISABLED ? 'hidden' : 'visible' }}>
+        <span style={{ visibility: processing ? 'hidden' : 'visible' }}>
           {children}
         </span>
         <div
@@ -360,7 +368,7 @@ export default class StatusButton extends Component {
             animate: true,
           })}
         >{stateText}</div>
-      </Tag>
+      </Button>
     );
   }
 }

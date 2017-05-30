@@ -26,14 +26,49 @@ module.exports = function ({ storiesOf, action, knob }) {
     .add('Knobs', () => (
       <StatusButton
         onClick={action('onClick')}
-        bsStyle={knob.select('bsStyle', { none: null, default: 'default', info: 'info', success: 'success', warning: 'warning', danger: 'danger' }, null)}
-        bsSize={knob.select('bsSize', { normal: null, xsmall: 'xsmall', small: 'small', large: 'large' }, null)}
-        status={knob.select('Status', { null: 'null', loading: 'loading', success: 'success', error: 'error', disabled: 'disabled' }, null)}
+        status={knob.select('Status', {
+          '': '',
+          loading: 'loading',
+          success: 'success',
+          error: 'error',
+          disabled: 'disabled',
+        }, '')}
         pendingText={knob.text('Pending text', '')}
         fulFilledText={knob.text('FulFilled text', '')}
         rejectedText={knob.text('Rejected text', '')}
       >
         {knob.text('children', 'Sample content')}
+      </StatusButton>
+    ))
+    .add('Knobs (Bootstrap styles)', () => (
+      <StatusButton
+        onClick={action('onClick')}
+        bsStyle={knob.select('bsStyle', {
+          default: 'default',
+          info: 'info',
+          primary: 'primary',
+          link: 'link',
+          success: 'success',
+          warning: 'warning',
+          danger: 'danger',
+        }, 'default')}
+        bsSize={knob.select('bsSize', {
+          xs: 'xsmall',
+          sm: 'small',
+          lg: 'large',
+        }, 'small')}
+        status={knob.select('Status', {
+          '': '',
+          loading: 'loading',
+          success: 'success',
+          error: 'error',
+          disabled: 'disabled',
+        }, '')}
+        pendingText={knob.text('Pending text', '')}
+        fulFilledText={knob.text('FulFilled text', '')}
+        rejectedText={knob.text('Rejected text', '')}
+      >
+        {knob.text('children', 'Button')}
       </StatusButton>
     ))
     .add('Default button', () => (
@@ -76,17 +111,5 @@ module.exports = function ({ storiesOf, action, knob }) {
       >
         Отправить
       </TestPromise>
-    ))
-    .add('Bootstrap styles', () => (
-      <StatusButton
-        onClick={action('onClick')}
-        bsStyle={knob.text('bsStyle', 'info')}
-        bsSize={knob.text('bsSize', 'large')}
-      >
-        {knob.text('children', 'Button')}
-      </StatusButton>
-    ))
-    .add('Change tag=button', () => (
-      <StatusButton tag={knob.text('tag', 'button')} status="error">Button</StatusButton>
     ));
 };

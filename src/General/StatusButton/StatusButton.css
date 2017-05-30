@@ -1,4 +1,3 @@
-
 .sb-container {
   display: inline-block;
   text-align: center;
@@ -104,10 +103,6 @@
   }
 }
 
-:global .btn[disabled] {
-  cursor: wait !important;
-}
-
 .StatusButton {
   transition: .1s ease;
   will-change: transform;
@@ -134,16 +129,24 @@
     border-radius: 4px;
     transition: border .3s ease;
     &.spin {
-        > svg {
-          animation-name: spin;
-          animation-duration: 600ms;
-          animation-iteration-count: infinite;
-          animation-timing-function: linear;
-        }
+      > svg {
+        animation-name: spin;
+        animation-duration: 600ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      }
      }
   }
 
+  &.processing {
+    cursor: wait !important;
+  }
+
   &.default {
+
+  }
+
+  &.loading {
     border-color: transparent !important;
     .animate {
       border: 2px solid #adadad;
