@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Component from 'lsk-general/General/Component';
 import { autobind } from 'core-decorators';
 import StatusButton from '../StatusButton';
 import omit from 'lodash/omit';
 
-// const PROMISE_TIMEOUT = 2000;
-
 export default class TestPromise extends Component {
+
+  static defaultProps = {
+    error: false,
+    promiseTimeout: 2000,
+    onClick: () => {},
+  }
+
+  static propTypes = {
+    error: PropTypes.bool,
+    promiseTimeout: PropTypes.number,
+    onClick: PropTypes.func,
+  }
 
   constructor(props) {
     super(props);
@@ -19,18 +29,21 @@ export default class TestPromise extends Component {
   getData() {
     this.promise = new Promise((resolve, reject) => {
       clearTimeout(this.timeout);
+
       this.timeout = setTimeout(() => {
-        this.props.error ? reject(false) : resolve(true);
-      }, this.props.promiseTimeout || 2000);
+        return this.props.error ? reject(false) : resolve(true);
+      }, this.props.promiseTimeout);
     });
+
     this.setState({ fetching: true });
+
     return this.promise;
   }
 
   @autobind
   async handleClick() {
     const result = await this.getData();
-    this.props.onClick && this.props.onClick(result);
+    return this.props.onClick && this.props.onClick(result);
   }
 
   render() {

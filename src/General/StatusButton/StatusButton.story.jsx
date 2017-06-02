@@ -34,7 +34,7 @@ module.exports = function ({ storiesOf, action, knob }) {
           disabled: 'disabled',
         }, '')}
         pendingText={knob.text('Pending text', '')}
-        fulFilledText={knob.text('FulFilled text', '')}
+        fulfilledText={knob.text('FulFilled text', '')}
         rejectedText={knob.text('Rejected text', '')}
       >
         {knob.text('children', 'Sample content')}
@@ -65,7 +65,7 @@ module.exports = function ({ storiesOf, action, knob }) {
           disabled: 'disabled',
         }, '')}
         pendingText={knob.text('Pending text', '')}
-        fulFilledText={knob.text('FulFilled text', '')}
+        fulfilledText={knob.text('Fulfilled text', '')}
         rejectedText={knob.text('Rejected text', '')}
       >
         {knob.text('children', 'Button')}
@@ -84,7 +84,7 @@ module.exports = function ({ storiesOf, action, knob }) {
       <StatusButton onClick={action('onClick')} status="success">Button</StatusButton>
     ))
     .add('State: success (with text)', () => (
-      <StatusButton onClick={action('onClick')} status="success" fulFilledText="Готово">Button</StatusButton>
+      <StatusButton onClick={action('onClick')} status="success" fulfilledText="Готово">Button</StatusButton>
     ))
     .add('State: error', () => (
       <StatusButton onClick={action('onClick')} status="error">Button</StatusButton>

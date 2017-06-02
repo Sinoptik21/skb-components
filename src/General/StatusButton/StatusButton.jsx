@@ -32,12 +32,8 @@ export default class StatusButton extends Component {
 
     // disabled: false,
     pendingText: '',
-    fulFilledText: '',
+    fulfilledText: '',
     rejectedText: '',
-    // loadingClass: 'sb--loading',
-    // fulFilledClass: 'sb--fulfilled',
-    // rejectedClass: 'sb--rejected',
-    // classNamespace: 'sb-',
   }
 
   static propTypes = {
@@ -50,12 +46,8 @@ export default class StatusButton extends Component {
 
     // disabled: PropTypes.bool,
     pendingText: PropTypes.string,
-    fulFilledText: PropTypes.string,
+    fulfilledText: PropTypes.string,
     rejectedText: PropTypes.string,
-    // loadingClass: PropTypes.string,
-    // fulFilledClass: PropTypes.string,
-    // rejectedClass: PropTypes.string,
-    // classNamespace: PropTypes.string,
   }
 
   constructor(props) {
@@ -66,7 +58,6 @@ export default class StatusButton extends Component {
     this.resolvePromise(props.promise);
   }
 
-  // ??
   componentWillReceiveProps(nextProps) {
     this.resolvePromise(nextProps.promise);
     if (!nextProps.promise) {
@@ -87,7 +78,7 @@ export default class StatusButton extends Component {
 
   finishStatus(status) {
     this.setState({ status });
-    setTimeout(() => this.setState({ status: '' }), this.props.timeout);
+    setTimeout(() => this.setState({ status: BUTTON_STATE.NONE }), this.props.timeout);
   }
 
   convertStatus(status) {
@@ -103,182 +94,14 @@ export default class StatusButton extends Component {
     }
   }
 
-  // ?
-  // componentWillUnmount() {
-  //   this.isUnmounted = true;
-  //   // ??
-  //   clearTimeout(this._timeout);
-  // }
-
-  // ?
-  // resetState() {
-  //   this.setState({
-  //     asyncState: null,
-  //   });
-  // }
-
-  // ?
-  // @autobind
-  // handleClick(...args) {
-  //   const clickHandler = this.props.onClick;
-  //   if (typeof clickHandler === 'function') {
-  //     this.setState({
-  //       asyncState: 'pending',
-  //     });
-  //
-  //     const returnFn = clickHandler.apply(null, args);
-  //     if (returnFn && typeof returnFn.then === 'function') {
-  //       returnFn.then(() => {
-  //         if (this.isUnmounted) {
-  //           return;
-  //         }
-  //         this.setState({
-  //           asyncState: 'fulfilled',
-  //         });
-  //       }).catch((error) => {
-  //         if (this.isUnmounted) {
-  //           return;
-  //         }
-  //         this.setState({
-  //           asyncState: 'rejected',
-  //         });
-  //         throw error;
-  //       });
-  //     } else {
-  //       this.resetState();
-  //     }
-  //   }
-  // }
-
-  // handleClick(e) {
-  //   if (this.props.controlled) {
-  //     this.props.onClick(e);
-  //     return true;
-  //   }
-  //
-  //   if ((this.props.shouldAllowClickOnLoading ||
-  //       this.state.currentState !== BUTTON_STATE.LOADING) &&
-  //       this.state.currentState !== BUTTON_STATE.DISABLED
-  //   ) {
-  //     this.loading();
-  //     const ret = this.props.onClick(e);
-  //     this.handlePromise(ret);
-  //   } else {
-  //     e.preventDefault();
-  //   }
-  // }
-  //
-  // handlePromise(promise) {
-  //   if (promise && promise.then && promise.catch) {
-  //     promise
-  //       .then(() => {
-  //         this.success();
-  //       })
-  //       .catch((err) => {
-  //         this.error(null, err);
-  //       });
-  //   }
-  // }
-  //
-  // loading() {
-  //   this.setState({ currentState: BUTTON_STATE.LOADING });
-  // }
-  //
-  // notLoading() {
-  //   this.setState({ currentState: BUTTON_STATE.NOTHING });
-  // }
-  //
-  // enable() {
-  //   this.setState({ currentState: BUTTON_STATE.NOTHING });
-  // }
-  //
-  // disable() {
-  //   this.setState({ currentState: BUTTON_STATE.DISABLED });
-  // }
-  //
-  // success(callback, dontRemove) {
-  //   this.setState({ currentState: BUTTON_STATE.SUCCESS });
-  //   this._timeout = setTimeout(() => {
-  //     if (!dontRemove) { this.setState({ currentState: BUTTON_STATE.NOTHING }); }
-  //     callback = callback || this.props.onSuccess;
-  //     if (typeof callback === 'function') { callback(); }
-  //   }, this.props.durationSuccess);
-  // }
-  //
-  // error(callback, err) {
-  //   this.setState({ currentState: BUTTON_STATE.ERROR });
-  //   this._timeout = setTimeout(() => {
-  //     this.setState({ currentState: BUTTON_STATE.NOTHING });
-  //     callback = callback || this.props.onError;
-  //     if (typeof callback === 'function') { callback(err); }
-  //   }, this.props.durationError);
-  // }
-
   render() {
-    // const {
-    //   text,
-    //   bsStyle,
-    //   // ?
-    //   // children,
-    //   pendingText,
-    //   fulFilledText,
-    //   rejectedText,
-    //   // className,
-    //   loadingClass,
-    //   fulFilledClass,
-    //   rejectedClass,
-    //   disabled,
-    //   // ...attributes
-    //   // ??
-    //   className,
-    //   classNamespace,
-    //   children,
-    //   type,
-    //   form,
-    //   durationError,
-    //   durationSuccess,
-    //   onClick,
-    //   onError,
-    //   onSuccess,
-    //   state,
-    //   shouldAllowClickOnLoading,
-    //   controlled,
-    //   ...containerProps
-    // } = this.props;
-
-    // ?
-    // const { asyncState } = this.state;
-    // const isPending = asyncState === 'pending';
-    // const isFulfilled = asyncState === 'fulfilled';
-    // const isRejected = asyncState === 'rejected';
-    // const isDisabled = disabled || isPending;
-    // const btnClasses = cx(className, {
-    //   [loadingClass]: isPending,
-    //   [fulFilledClass]: isFulfilled,
-    //   [rejectedClass]: isRejected,
-    // });
-    // let buttonText;
-    //
-    // if (isPending) {
-    //   buttonText = pendingText;
-    // } else if (isFulfilled) {
-    //   buttonText = fulFilledText;
-    // } else if (isRejected) {
-    //   buttonText = rejectedText;
-    // }
-    // buttonText = buttonText || text;
-    //
-    // // ??
-    // containerProps.className = `${classNamespace}container${this.state.currentState} ${className}`;
-    // containerProps.onClick = this.handleClick;
-
     const { status } = this.state;
     const {
       children,
       bsStyle,
       styleName,
       pendingText,
-      fulFilledText,
+      fulfilledText,
       rejectedText,
     } = this.props;
 
@@ -334,7 +157,7 @@ export default class StatusButton extends Component {
         bsStyleType = 'default';
         break;
       case 'success':
-        stateText = fulFilledText;
+        stateText = fulfilledText;
         bsStyleType = 'success';
         break;
       case 'error':
@@ -347,7 +170,7 @@ export default class StatusButton extends Component {
 
     return (
       <Button
-        {...omit(this.props, ['status', 'promise', 'timeout', 'pendingText', 'fulFilledText', 'rejectedText'])}
+        {...omit(this.props, ['status', 'promise', 'timeout', 'pendingText', 'fulfilledText', 'rejectedText'])}
         styleName={`StatusButton ${styleName} ${style}`}
         bsStyle={bsStyleType || bsStyle}
         disabled={disabled}
